@@ -1,55 +1,555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gabriel Veloso</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gabriel Veloso — ML / RLWR / AI. Research projects: AZR_BugFixBench, WhoDunIt, AutoML-Agent." />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 0 20px;
-      line-height: 1.6;
-      color: #222;
+    :root{
+      --bg0:#05060a;
+      --bg1:#0a0c12;
+      --bg2:#0f1320;
+      --card: rgba(255,255,255,0.05);
+      --card2: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.10);
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --muted2: rgba(255,255,255,0.60);
+
+      --link: #9ad7ff;
+      --link2:#b8ffd9;
+
+      --shadow: 0 14px 40px rgba(0,0,0,0.55);
+      --radius: 16px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-    h1 {
-      margin-bottom: 0;
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 18% 14%, rgba(154,215,255,0.10), transparent 60%),
+        radial-gradient(900px 540px at 85% 22%, rgba(184,255,217,0.08), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
+      overflow-x: hidden;
     }
-    .subtitle {
-      color: #555;
-      margin-top: 4px;
+
+    a{ color: var(--link); text-decoration:none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
     }
-    a {
-      color: #0366d6;
-      text-decoration: none;
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .mark{
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--link), var(--link2));
+      box-shadow: 0 0 0 4px rgba(154,215,255,0.10);
+    }
+
+    .brand strong{
+      letter-spacing: .2px;
+      font-size: 14px;
+      line-height: 1.1;
+    }
+    .brand span{
+      display:block;
+      color: var(--muted2);
+      font-size: 12.5px;
+      margin-top: 2px;
+    }
+
+    .links{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.10);
+      transition: transform .12s ease, background .12s ease;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.88);
+      white-space: nowrap;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.075);
+      text-decoration:none;
+    }
+    .pill svg{ width: 16px; height: 16px; opacity: .92; }
+
+    /* Cards / layout */
+    .card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+    }
+
+    .heroMain{
+      padding: 22px 22px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .heroMain:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(460px 220px at 18% 18%, rgba(154,215,255,0.14), transparent 60%),
+        radial-gradient(520px 240px at 78% 30%, rgba(184,255,217,0.10), transparent 62%);
+      pointer-events:none;
+    }
+    .heroMain > *{ position: relative; }
+
+    h1{
+      margin: 0 0 8px 0;
+      font-size: clamp(28px, 3.4vw, 40px);
+      letter-spacing: -0.5px;
+      line-height: 1.12;
+    }
+
+    .subtitle{
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      font-size: 14.5px;
+    }
+
+    .intro{
+      margin: 0;
+      color: rgba(255,255,255,0.84);
+      font-size: 14.5px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .badge{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.86);
+    }
+
+    /* Photo area */
+    .heroSide{
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .photoBox{
+      border-radius: 16px;
+      background: rgba(0,0,0,0.18);
+      border: 1px dashed rgba(255,255,255,0.22);
+      padding: 14px;
+      display:flex;
+      align-items:center;
+      gap: 14px;
+    }
+
+    .avatar{
+      width: 88px;
+      height: 88px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+
+    /* If you add an image: place it in /assets/profile.jpg and uncomment in HTML */
+    .avatar img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .photoText strong{ display:block; font-size: 13.5px; }
+    .photoText span{ display:block; color: var(--muted2); font-size: 12.8px; margin-top: 2px; }
+
+    .sideBlock{
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.16);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .sideTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .sideTitle strong{ font-size: 13.5px; }
+    .sideTitle span{
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.66);
+      font-size: 12px;
+    }
+    .sideText{
+      margin:0;
+      color: rgba(255,255,255,0.78);
+      font-size: 13.8px;
+      line-height: 1.55;
+    }
+
+    /* Sections */
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .section{
+      padding: 20px 20px 18px;
+    }
+    h2{
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      letter-spacing: -.2px;
+    }
+    p{ margin: 0 0 10px 0; }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .chip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+    }
+
+    /* Projects */
+    .projects{
+      margin-top: 16px;
+    }
+    .projGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .proj{
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      min-height: 128px;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .proj:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.075);
+    }
+    .projTitle{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .projTitle strong{ font-size: 14px; }
+    .tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(154,215,255,0.10);
+      border: 1px solid rgba(154,215,255,0.16);
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
+    .proj p{
+      margin: 0;
+      font-size: 13.4px;
+      color: rgba(255,255,255,0.74);
+      line-height: 1.55;
+    }
+    .proj a{
+      font-size: 13.4px;
+      color: var(--link);
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 18px;
+      padding: 14px 6px 0;
+      color: rgba(255,255,255,0.60);
+      font-size: 12.8px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .small{ font-family: var(--mono); opacity: .9; }
+
+    @media (max-width: 900px){
+      .topbar{ border-radius: 18px; }
+      .brand{ min-width: auto; }
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .projGrid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
+
 <body>
+  <div class="wrap">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark"></div>
+        <div>
+          <strong>Gabriel Veloso</strong>
+          <span>Machine Learning • RLWR • AI</span>
+        </div>
+      </div>
 
-  <h1>Gabriel Veloso</h1>
-  <p class="subtitle">Computer Science Researcher — UFMG</p>
+      <!-- CONTACTS (exactly as you provided) -->
+      <div class="links">
+        <!-- TODO: Replace # with your real links -->
+        <a class="pill" href="https://github.com/gabrielmveloso" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.75 5.6.75 12c0 5.1 3.2 9.4 7.64 10.9.56.1.77-.25.77-.56v-2c-3.11.7-3.76-1.36-3.76-1.36-.5-1.33-1.22-1.68-1.22-1.68-.99-.7.08-.69.08-.69 1.1.08 1.68 1.15 1.68 1.15.98 1.72 2.57 1.22 3.2.93.1-.73.38-1.22.7-1.5-2.48-.29-5.09-1.27-5.09-5.66 0-1.25.43-2.27 1.14-3.07-.12-.29-.5-1.46.11-3.05 0 0 .93-.3 3.05 1.17a10.3 10.3 0 0 1 2.78-.38c.94 0 1.9.13 2.78.38 2.12-1.47 3.05-1.17 3.05-1.17.61 1.6.23 2.76.11 3.05.71.8 1.14 1.82 1.14 3.07 0 4.4-2.61 5.37-5.1 5.65.39.34.74 1.03.74 2.08v3.08c0 .31.2.66.78.55A11.33 11.33 0 0 0 23.25 12C23.25 5.6 18.27.5 12 .5Z"/></svg>
+          GitHub
+        </a>
 
-  <h2>About</h2>
-  <p>
-    I am a computer science researcher with interests in machine learning,
-    large language models, optimization, and embedded systems.
-  </p>
+        <a class="pill" href="https://www.linkedin.com/in/gabriel-veloso-/" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.67H7.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+          LinkedIn
+        </a>
 
-  <h2>Interests</h2>
-  <ul>
-    <li>Machine Learning & AutoML</li>
-    <li>Large Language Models</li>
-    <li>Optimization & Decision Theory</li>
-    <li>Embedded Systems & IoT</li>
-  </ul>
+        <a class="pill" href="mailto:gabrielveloso077@gmail.com">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+          Email
+        </a>
 
-  <h2>Links</h2>
-  <ul>
-    <li><a href="https://github.com/">GitHub</a></li>
-    <li><a href="https://linkedin.com/">LinkedIn</a></li>
-  </ul>
+        <a class="pill" href="https://scholar.google.com/" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 1 9l11 7 9-5.73V17h2V9L12 2Zm0 13L5.5 11.1V18c0 1.1 2.8 4 6.5 4s6.5-2.9 6.5-4v-6.9L12 15Z"/></svg>
+          Scholar
+        </a>
+      </div>
+    </div>
 
+    <!-- HERO -->
+    <div class="hero">
+      <div class="card heroMain">
+        <h1>Gabriel Veloso</h1>
+        <p class="subtitle">ML / RLWR / AI — Research-oriented projects and evaluation frameworks.</p>
+
+        <p class="intro">
+          I work on <strong>machine learning</strong> and <strong>AI</strong>, with a focus on
+          <strong>RL with verifiable rewards (RLWR)</strong>, robust evaluation, and agentic workflows.
+          I’m especially interested in building practical benchmarks and environments that stress-test reasoning,
+          tool use, and generalization.
+        </p>
+
+        <div class="badges">
+          <span class="badge">Machine Learning</span>
+          <span class="badge">RLWR</span>
+          <span class="badge">AI Agents</span>
+          <span class="badge">Evaluation</span>
+        </div>
+      </div>
+
+      <div class="card heroSide">
+        <!-- PHOTO PLACEHOLDER -->
+        <div class="photoBox">
+          <div class="avatar" title="Add /assets/profile.jpg to display your photo">
+            <!-- To use a real photo:
+              1) Create a folder named "assets" in your repo
+              2) Upload a file "profile.jpg" inside it
+              3) Uncomment the img tag below
+            -->
+            <!-- <img src="assets/profile.jpg" alt="Gabriel Veloso" /> -->
+            PHOTO
+          </div>
+          <div class="photoText">
+            <strong>Profile photo</strong>
+            <span>Add <span style="font-family:var(--mono);">/assets/profile.jpg</span> to display it.</span>
+          </div>
+        </div>
+
+        <div class="sideBlock">
+          <div class="sideTitle">
+            <strong>Focus</strong>
+            <span>2026</span>
+          </div>
+          <p class="sideText">Benchmarks, agentic evaluation, and learning with verifiable signals.</p>
+        </div>
+
+        <div class="sideBlock">
+          <div class="sideTitle">
+            <strong>Collaboration</strong>
+            <span>open</span>
+          </div>
+          <p class="sideText">Happy to collaborate on ML/AI evaluation, agents, and RLWR-related work.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERESTS / ABOUT -->
+    <div class="grid">
+      <div class="card section">
+        <h2>Research Interests</h2>
+        <div class="chips">
+          <span class="chip">AI Agents & Tool Use</span>
+          <span class="chip">RL with Verifiable Rewards (RLWR)</span>
+          <span class="chip">Benchmarking & Evaluation</span>
+          <span class="chip">Reasoning & Generalization</span>
+          <span class="chip">Program Repair / Code Evaluation</span>
+          <span class="chip">Learning from Feedback</span>
+        </div>
+      </div>
+
+      <div class="card section">
+        <h2>About</h2>
+        <p style="color: rgba(255,255,255,0.80); line-height: 1.65;">
+          I build research artifacts that make progress measurable: datasets, benchmarks, and environments that expose
+          failure modes and support reliable comparison across models and methods.
+        </p>
+        <p style="color: rgba(255,255,255,0.72); line-height: 1.65;">
+          Current emphasis: <strong>evaluation-driven development</strong> for agentic systems and <strong>RLWR</strong>.
+        </p>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="card section projects">
+      <h2>Selected Projects</h2>
+      <p style="color: rgba(255,255,255,0.72); margin-bottom: 10px; line-height: 1.6;">
+        A few ongoing projects focused on ML/AI evaluation, agentic environments, and verifiable learning signals.
+      </p>
+
+      <div class="projGrid">
+        <!-- AZR_BugFixBench -->
+        <div class="proj">
+          <div class="projTitle">
+            <strong>AZR_BugFixBench</strong>
+            <span class="tag">RLWR • Eval</span>
+          </div>
+          <p>
+            A benchmark for evaluating bug-fixing and code-repair pipelines with strong, verifiable outcomes and
+            standardized measurement.
+          </p>
+          <a href="https://github.com/gabrielmveloso/AZR_BugFixBench" target="_blank" rel="noreferrer">Repository →</a>
+        </div>
+
+        <!-- WhoDunIt -->
+        <div class="proj">
+          <div class="projTitle">
+            <strong>WhoDunIt</strong>
+            <span class="tag">Agents</span>
+          </div>
+          <p>
+            An environment to test reasoning, evidence tracking, and structured inference—designed for agentic evaluation
+            and controlled experimentation.
+          </p>
+          <a href="https://github.com/gabrielmveloso/WhoDunIt" target="_blank" rel="noreferrer">Repository →</a>
+        </div>
+
+        <!-- AutoML-Agent -->
+        <div class="proj">
+          <div class="projTitle">
+            <strong>AutoML-Agent</strong>
+            <span class="tag">ML</span>
+          </div>
+          <p>
+            Contributed to a multi-agent AutoML project, focusing on making ML workflows more accessible via natural
+            language and structured automation.
+          </p>
+          <a href="https://github.com/PatriciaLucas/AutoML-Agent" target="_blank" rel="noreferrer">Repository →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© <span id="year"></span> Gabriel Veloso • GitHub Pages</div>
+      <div class="small">Last update: <span id="date"></span></div>
+    </footer>
+  </div>
+
+  <script>
+    const now = new Date();
+    document.getElementById("year").textContent = now.getFullYear();
+    document.getElementById("date").textContent = now.toISOString().slice(0,10);
+  </script>
 </body>
 </html>
